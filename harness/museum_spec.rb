@@ -19,13 +19,16 @@ RSpec.describe 'museum spec' do
   end
 
   describe 'Iteration 1' do
-    it '1. Exhibit & Patron Creation' do
+    it '1. Exhibit Creation' do
       expect(Exhibit).to respond_to(:new).with(1).argument
       expect(@dead_sea_scrolls).to be_an_instance_of(Exhibit)
       expect(@dead_sea_scrolls).to respond_to(:name).with(0).argument
       expect(@dead_sea_scrolls.name).to eq('Dead Sea Scrolls')
       expect(@dead_sea_scrolls).to respond_to(:cost).with(0).argument
       expect(@dead_sea_scrolls.cost).to eq(0)
+    end
+
+    it '2. Patron Creation' do
       expect(Patron).to respond_to(:new).with(2).argument
       expect(@bob).to be_an_instance_of(Patron)
       expect(@bob).to respond_to(:name).with(0).argument
@@ -36,7 +39,7 @@ RSpec.describe 'museum spec' do
       expect(@bob.interests).to eq([])
     end
 
-    it '2. Patron #add_interest' do
+    it '3. Patron #add_interest' do
       expect(@bob).to respond_to(:add_interest).with(1).argument
       @bob.add_interest("Dead Sea Scrolls")
       @bob.add_interest("Gems and Minerals")
@@ -51,7 +54,7 @@ RSpec.describe 'museum spec' do
       @sally.add_interest("IMAX")
     end
 
-    it '3. Museum ::new' do
+    it '4. Museum ::new' do
       expect(Museum).to respond_to(:new).with(1).argument
       expect(@dmns).to be_an_instance_of(Museum)
       expect(@dmns).to respond_to(:name).with(0).argument
@@ -60,14 +63,14 @@ RSpec.describe 'museum spec' do
       expect(@dmns.exhibits).to eq([])
     end
 
-    it '4. Museum #add_exhibit' do
+    it '5. Museum #add_exhibit' do
       expect(@dmns).to respond_to(:add_exhibit).with(1).argument
       @dmns.add_exhibit(@dead_sea_scrolls)
       @dmns.add_exhibit(@gems_and_minerals)
       expect(@dmns.exhibits).to eq([@dead_sea_scrolls, @gems_and_minerals])
     end
 
-    it '5. Museum #recommend_exhibits' do
+    it '6. Museum #recommend_exhibits' do
       @dmns.add_exhibit(@dead_sea_scrolls)
       @dmns.add_exhibit(@gems_and_minerals)
       @dmns.add_exhibit(@imax)
@@ -97,19 +100,19 @@ RSpec.describe 'museum spec' do
       @sally.add_interest("Dead Sea Scrolls")
     end
 
-    it '6. Museum #patrons' do
+    it '7. Museum #patrons' do
       expect(@dmns).to respond_to(:patrons).with(0).argument
       expect(@dmns.patrons).to eq([])
     end
 
-    it '7. Museum #admit' do
+    it '8. Museum #admit' do
       expect(@dmns).to respond_to(:admit).with(1).argument
       @dmns.admit(@bob)
       @dmns.admit(@sally)
       expect(@dmns.patrons).to eq([@bob, @sally])
     end
 
-    it '8. Museum #patrons_by_exhibit_interest' do
+    it '9. Museum #patrons_by_exhibit_interest' do
       @dmns.admit(@bob)
       @dmns.admit(@sally)
       expected = {
@@ -121,43 +124,43 @@ RSpec.describe 'museum spec' do
       expect(@dmns.patrons_by_exhibit_interest).to eq(expected)
     end
 
-      it '9. Museum #ticket_lottery_contestants' do
-        @dmns.add_exhibit(@imax_2)
-        @tj.add_interest("IMAX2")
-        @gabe.add_interest("IMAX2")
-        @dmns.admit(@tj)
-        @dmns.admit(@gabe)
-        @dmns.admit(@morgan)
+    it '10. Museum #ticket_lottery_contestants' do
+      @dmns.add_exhibit(@imax_2)
+      @tj.add_interest("IMAX2")
+      @gabe.add_interest("IMAX2")
+      @dmns.admit(@tj)
+      @dmns.admit(@gabe)
+      @dmns.admit(@morgan)
 
-        expected = [@tj, @gabe]
-        expect(@dmns).to respond_to(:ticket_lottery_contestants).with(1).argument
-        expect(@dmns.ticket_lottery_contestants(@imax_2)).to eq(expected)
-      end
+      expected = [@tj, @gabe]
+      expect(@dmns).to respond_to(:ticket_lottery_contestants).with(1).argument
+      expect(@dmns.ticket_lottery_contestants(@imax_2)).to eq(expected)
+    end
 
-      it '10. Museum #draw_lottery_winner' do
-        @dmns.add_exhibit(@imax_2)
-        @tj.add_interest("IMAX2")
-        @gabe.add_interest("IMAX2")
-        @dmns.admit(@tj)
-        @dmns.admit(@gabe)
-        @dmns.admit(@morgan)
+    it '11. Museum #draw_lottery_winner' do
+      @dmns.add_exhibit(@imax_2)
+      @tj.add_interest("IMAX2")
+      @gabe.add_interest("IMAX2")
+      @dmns.admit(@tj)
+      @dmns.admit(@gabe)
+      @dmns.admit(@morgan)
 
-        expect(@dmns).to respond_to(:draw_lottery_winner).with(1).argument
-        expect(@dmns.draw_lottery_winner(@imax_2)).to eq("TJ").or(eq("Gabe"))
-      end
+      expect(@dmns).to respond_to(:draw_lottery_winner).with(1).argument
+      expect(@dmns.draw_lottery_winner(@imax_2)).to eq("TJ").or(eq("Gabe"))
+    end
 
-      it '11. Museum #announce_lottery_winner' do
-        @dmns.add_exhibit(@imax_2)
-        @tj.add_interest("IMAX2")
-        @gabe.add_interest("IMAX2")
-        @dmns.admit(@tj)
-        @dmns.admit(@gabe)
-        @dmns.admit(@morgan)
-        @dmns.stubs(:draw_lottery_winner).returns('Gabe')
-        expected = "Gabe has won the IMAX2 exhibit lottery"
-        expect(@dmns).to respond_to(:announce_lottery_winner).with(1).argument
-        expect(@dmns.announce_lottery_winner(@imax_2)).to eq(expected)
-      end
+    it '12. Museum #announce_lottery_winner' do
+      @dmns.add_exhibit(@imax_2)
+      @tj.add_interest("IMAX2")
+      @gabe.add_interest("IMAX2")
+      @dmns.admit(@tj)
+      @dmns.admit(@gabe)
+      @dmns.admit(@morgan)
+      @dmns.stubs(:draw_lottery_winner).returns('Gabe')
+      expected = "Gabe has won the IMAX2 exhibit lottery"
+      expect(@dmns).to respond_to(:announce_lottery_winner).with(1).argument
+      expect(@dmns.announce_lottery_winner(@imax_2)).to eq(expected)
+    end
   end
 
   describe 'Iteration 4' do
@@ -195,7 +198,7 @@ RSpec.describe 'museum spec' do
       @dmns.admit(@morgan)
     end
 
-    it '12. Museum #patrons_of_exhibits' do
+    it '13. Museum #patrons_of_exhibits' do
       expected = {
         @gems_and_minerals => [@morgan],
         @dead_sea_scrolls => [@bob, @morgan],
@@ -205,14 +208,14 @@ RSpec.describe 'museum spec' do
       expect(@dmns.patrons_of_exhibits).to eq(expected)
     end
 
-    it '13. Museum #admit reduces spending money' do
+    it '14. Museum #admit reduces spending money' do
       expect(@tj.spending_money).to eq(7)
       expect(@bob.spending_money).to eq(0)
       expect(@sally.spending_money).to eq(5)
       expect(@morgan.spending_money).to eq(5)
     end
 
-    it '14. Museum #revenue' do
+    it '15. Museum #revenue' do
       expect(@dmns).to respond_to(:revenue).with(0).argument
       expect(@dmns.revenue).to eq(35)
     end
