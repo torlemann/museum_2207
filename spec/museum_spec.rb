@@ -4,6 +4,9 @@ require './lib/museum'
 
 RSpec.describe Museum do
   let(:dmns) {Museum.new("Denver Museum of Nature and Science")}
+  let(:gems_and_minerals) {Exhibit.new({name: "Gems and Minerals", cost: 0})}
+  let(:dead_sea_scrolls) {Exhibit.new({name: "Dead Sea Scrolls", cost: 10})}
+  let(:imax) {Exhibit.new({name: "IMAX",cost: 15})}
 
   it 'exists' do
     expect(dmns).to be_a(Museum)
@@ -13,24 +16,15 @@ RSpec.describe Museum do
     expect(dmns.name).to eq("Denver Museum of Nature and Science")
     expect(dmns.exhibits).to eq([])
   end
-# pry(main)> gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
-# # => #<Exhibit:0x00007fb400bbcdd8...>
-#
-# pry(main)> dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
-# # => #<Exhibit:0x00007fb400b851f8...>
-#
-# pry(main)> imax = Exhibit.new({name: "IMAX",cost: 15})
-# # => #<Exhibit:0x00007fb400acc590...>
-#
-# pry(main)> dmns.add_exhibit(gems_and_minerals)
-#
-# pry(main)> dmns.add_exhibit(dead_sea_scrolls)
-#
-# pry(main)> dmns.add_exhibit(imax)
-#
-# pry(main)> dmns.exhibits
-# # => [#<Exhibit:0x00007fb400bbcdd8...>, #<Exhibit:0x00007fb400b851f8...>, #<Exhibit:0x00007fb400acc590...>]
-#
+
+  it 'can add and return exhibits' do
+    dmns.add_exhibit(gems_and_minerals)
+    dmns.add_exhibit(dead_sea_scrolls)
+    dmns.add_exhibit(imax)
+    expect(dmns.exhibits).to eq([gems_and_minerals, dead_sea_scrolls, imax])
+  end
+
+
 # pry(main)> patron_1 = Patron.new("Bob", 20)
 # # => #<Patron:0x00007fb400a51cc8...>
 #
