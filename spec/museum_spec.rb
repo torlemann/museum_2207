@@ -44,6 +44,7 @@ RSpec.describe Museum do
     dmns.add_exhibit(imax)
     expect(dmns.patrons).to eq([])
 
+    patron_1 = Patron.new("Bob", 0)
     patron_1.add_interest("Gems and Minerals")
     patron_1.add_interest("Dead Sea Scrolls")
     patron_2 = Patron.new("Sally", 20)
