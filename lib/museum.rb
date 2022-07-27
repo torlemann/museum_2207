@@ -21,4 +21,5 @@ class Museum
   def admit(patron_id)
     @patrons << patron_id
   end
+
 end
