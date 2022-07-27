@@ -1,2 +1,3 @@
 class Museum
+
 end
