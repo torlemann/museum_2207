@@ -8,14 +8,11 @@ RSpec.describe Museum do
   it 'exists' do
     expect(dmns).to be_a(Museum)
   end
-# # => #<Museum:0x00007fb400a6b0b0...>
-#
-# pry(main)> dmns.name
-# # => "Denver Museum of Nature and Science"
-#
-# pry(main)> dmns.exhibits
-# # => []
-#
+
+  it 'has readable attributes' do
+    expect(dmns.name).to eq("Denver Museum of Nature and Science")
+    expect(dmns.exhibits).to eq([])
+  end
 # pry(main)> gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
 # # => #<Exhibit:0x00007fb400bbcdd8...>
 #
